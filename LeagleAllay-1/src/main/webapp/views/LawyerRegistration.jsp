@@ -23,7 +23,7 @@
     <div class="contact">
         <div class="container">
             <div class="contact-form">
-                <form action="/user/registerLawyer" method="post" onsubmit="return validateLawyerForm();">
+                <form action="/user/registerLawyer" enctype="multipart/form-data" method="post" onsubmit="return validateLawyerForm();">
                     <div class="form-group">
                         <input type="text" name="name" id="name" class="form-control" placeholder="Your Name" required />
                         <small id="nameError" class="text-danger"></small>
@@ -48,6 +48,20 @@
                         <input type="text" name="phone" id="phone" class="form-control" placeholder="Your Phone" required />
                         <small id="phoneError" class="text-danger"></small>
                     </div>
+                    <!--  <div class="form-group">
+                     	<label>Upload Profile Photo
+                     	</label>
+                        <input type="file" name="img" id="img" class="form-control" required />
+                        <small id="imgerror" class="text-danger"></small>
+                    </div> -->
+                    <div class="form-group">
+    <label for="img" class="font-weight-bold">Upload Profile Photo</label>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="img" name="file" required>
+        <label class="custom-file-label" for="img">Choose file</label>
+    </div>
+    <small id="imgerror" class="text-danger"></small>
+</div>
                     <div>
                         <button class="btn btn-dark" type="submit">Register as Lawyer</button>
                     </div>

@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="com.example.demo.Entities.Lawyer"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -94,14 +96,20 @@
 					<h2>Meet Our Expert Attorneys</h2>
 				</div>
 				<div class="row">
+				<%
+				List<Lawyer> list = (List<Lawyer>)session.getAttribute("allLawyer");
+				if(list!=null)
+				{
+				for(Lawyer l: list){ %>
 					<div class="col-lg-3 col-md-6">
-						<div class="team-item">
+						<a href="/user/lawyerProfile?id=<%=l.getId()%>"><div class="team-item">
 							<div class="team-img">
-								<a href="/user/lawyerProfile?id=2"><img src="/views/img/team-1.jpg" alt="Team Image"></a>
+                <img src="data:image/png;base64,<%= java.util.Base64.getEncoder().encodeToString(l.getImage()) %>alt="Profile Image" width="150" 
+        height="300" >
 							</div>
 							<div class="team-text">
-								<h2>Adam Phillips</h2>
-								<p>Business Consultant</p>
+								<h2><%=l.getName() %></h2>
+								<p><%=l.getSpecialization() %></p>
 								<div class="team-social">
 									<a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
 									<a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
@@ -109,8 +117,13 @@
 									<a class="social-in" href=""><i class="fab fa-instagram"></i></a>
 								</div>
 							</div>
-						</div>
+						</div></a>
 					</div>
+					<%} }
+					else
+					{
+						response.sendRedirect("/user/home");
+					}%>
 					<div class="col-lg-3 col-md-6">
 						<div class="team-item">
 							<div class="team-img">

@@ -60,39 +60,43 @@
                                     <i class="fa fa-map-marker-alt"></i>
                                     <div class="contact-text">
                                         <h2>Location</h2>
-                                        <p>123 Street, New York, USA</p>
+                                        <p>
+                <a href="" target="_blank">
+                    498,New Gouri Nagar ,Indore
+                </a>
+            </p>
                                     </div>
                                 </div>
                                 <div class="contact-item">
                                     <i class="fa fa-phone-alt"></i>
                                     <div class="contact-text">
                                         <h2>Phone</h2>
-                                        <p>+012 345 67890</p>
+            <p><a href="tel:+919617175279">+919617175279</a></p>
                                     </div>
                                 </div>
                                 <div class="contact-item">
                                     <i class="fa fa-envelope"></i>
                                     <div class="contact-text">
                                         <h2>Email</h2>
-                                        <p>info@example.com</p>
+            <p><a href="mailto:rupali8062@gmail.com">rupali8062@gmail.com</a></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="contact-form">
-                                <form>
+                                <form action="emailTask" method="post">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Your Name" required="required" />
+                                        <input type="text" class="form-control" name="name" placeholder="Your Name" required="required" />
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" class="form-control" placeholder="Your Email" required="required" />
+                                        <input type="email" class="form-control" name="email" placeholder="Your Email" required="required" />
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Subject" required="required" />
+                                        <input type="text" class="form-control" name="subject" placeholder="Subject" required="required" />
                                     </div>
                                     <div class="form-group">
-                                        <textarea class="form-control" placeholder="Message" required="required" ></textarea>
+                                        <textarea class="form-control" name="message" placeholder="Message" required="required" ></textarea>
                                     </div>
                                     <div>
                                         <button class="btn" type="submit">Send Message</button>

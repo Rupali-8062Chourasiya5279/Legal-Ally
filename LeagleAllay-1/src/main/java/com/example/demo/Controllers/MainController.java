@@ -1,5 +1,19 @@
 package com.example.demo.Controllers;
 
+import java.io.IOException;
+import java.util.List;
+
+/*import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;*/
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,10 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.Entities.Client;
 import com.example.demo.Entities.Lawyer;
 import com.example.demo.Service.ClientService;
+import com.example.demo.Service.EmailService;
 import com.example.demo.Service.LawyerService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,9 +39,14 @@ public class MainController {
 	private ClientService clservice;
 	@Autowired
 	private LawyerService lservice;
+	
+	 @Autowired
+	 private EmailService emailService;
 
 	@RequestMapping("home")
-	public String home() {
+	public String home(HttpSession session) {
+		List<Lawyer>list = lservice.findAllLawyer();
+		session.setAttribute("allLawyer", list);
 		return "index";
 	}
 
@@ -76,23 +97,15 @@ public class MainController {
 	@RequestMapping("lawyerProfile")
 	public String lawyerProfile(@RequestParam(value = "id")long id,HttpSession session) {
 		Lawyer l = new Lawyer();
-		if(id==2) {
+		if(id!=0) {
 			l = lservice.findLawyer(id);
+			session.setAttribute("lawyer", l);
 		}
-		else if(id==3) {
-			l = lservice.findLawyer(id);
-		}
-		else if(id==4) {
-			l = lservice.findLawyer(id);
-		}
-		else if(id==5) {
-			l = lservice.findLawyer(id);
-		}
-		else {
+		else 
+		{
 			return "redirect:/user/home";
 		}
-		session.setAttribute("lawyer", l);
-		return "lawyerProfile";//adhura hai abhiiiiiii
+		return "lawyerProfile";
 	}
 	
 	//========================================================================
@@ -200,10 +213,15 @@ public class MainController {
 	public String registerLawyer(@RequestParam(value = "name") String name,
 			@RequestParam(value = "specialization") String specialization, @RequestParam(value = "email") String email,
 			@RequestParam(value = "password") String password, @RequestParam(value = "cpassword") String cpassword,
-			@RequestParam(value = "phone") String phone, HttpSession session) {
+			@RequestParam(value = "phone") String phone, @RequestParam("file") MultipartFile file,HttpSession session) throws IOException {
 		if (password.equals(cpassword)) {
-			Lawyer l = new Lawyer(name, specialization, email, password, phone);
-			Lawyer saveLawyer = lservice.saveLawyer(l);
+			Lawyer l = new Lawyer();
+			l.setEmail(email);
+			l.setName(name);
+			l.setPassword(cpassword);
+			l.setPhone(phone);
+			l.setSpecialization(specialization);
+			Lawyer saveLawyer = lservice.saveLawyer(l,file);
 			if (saveLawyer != null) {
 				session.setAttribute("lawyer", saveLawyer);
 			} else {
@@ -214,9 +232,29 @@ public class MainController {
 	}
 	
 	@RequestMapping("profile")
-	public String profile() {
-
+	public String profile(HttpSession session) {
+	Lawyer l = 	(Lawyer)session.getAttribute("lawyer");
+	if(l!=null)
+	{
+		return "lawyerProfile";
+	}
+	else
+	{
 		return "profile";
 	}
+	}
 
+	
+	
+	@PostMapping("emailTask")
+    public String sendMessage(
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String subject,
+            @RequestParam String message) {
+
+        emailService.sendUserMessageToOwner(name, email, subject, message);
+        return "index";
+    }
+	
 }

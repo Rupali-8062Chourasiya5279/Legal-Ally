@@ -29,22 +29,12 @@
                 <h2 class="text-center text-primary mb-4">Welcome, Lawyer!</h2>
                 <%
                     Lawyer l = (Lawyer) session.getAttribute("lawyer");
-                    String imagePath = "/views/img/default-profile.jpg"; // default
-
-                    if (l.getId() == 2) {
-                        imagePath = "/views/img/team-1.jpg";
-                    } else if (l.getId() == 3) {
-                        imagePath = "/views/img/team-2.jpg";
-                    } else if (l.getId() == 4) {
-                        imagePath = "/views/img/team-3.jpg";
-                    } else if (l.getId() == 5) {
-                        imagePath = "/views/img/team-4.jpg";
-                    }
+					 
                 %>
 
                 <!-- Profile Image -->
                 <div class="text-center mb-4">
-                    <img src="<%=imagePath%>" alt="Profile Image" class="profile-image">
+                <img src="data:image/png;base64,<%= java.util.Base64.getEncoder().encodeToString(l.getImage()) %>" alt="Profile Image" style="border-radius: 50%;border: 5px solid #007bff" width="150px" height="150px" alt="Image" />
                 </div>
 
                 <!-- Profile Details -->

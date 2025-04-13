@@ -1,3 +1,4 @@
+<%@page import="com.example.demo.Entities.Client"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,22 +17,28 @@
         <div class="row justify-content-center">
             <div class="col-md-8 bg-light p-5 shadow rounded">
                 <h3 class="text-center mb-4">Welcome to Your Profile</h3>
-
+				<%Client c = (Client)session.getAttribute("client");
+				System.out.println(c);
+				%>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label><strong>Name:</strong></label>
-                        <p>${user.name}</p>
+                        <p><%=c.getName() %></p>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label><strong>Email:</strong></label>
-                        <p>${user.email}</p>
+                        <p><%=c.getEmail() %></p>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label><strong>Phone:</strong></label>
-                        <p>${user.phone}</p>
+                        <p><%=c.getPhone() %></p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label><strong>Id:</strong></label>
+                        <p><%=c.getId() %></p>
                     </div>
 
-                    <%-- Lawyer specific field --%>
+                    <%-- <%-- Lawyer specific field
                     <c:if test="${user.specialization != null}">
                         <div class="col-md-6 mb-3">
                             <label><strong>Specialization:</strong></label>
@@ -39,13 +46,13 @@
                         </div>
                     </c:if>
 
-                    <%-- Client specific field --%>
+                    Client specific field
                     <c:if test="${user.booking != null}">
                         <div class="col-md-6 mb-3">
                             <label><strong>Booking Info:</strong></label>
                             <p>${user.booking.details}</p>
                         </div>
-                    </c:if>
+                    </c:if> --%>
                 </div>
 
                 <div class="text-center mt-4">
