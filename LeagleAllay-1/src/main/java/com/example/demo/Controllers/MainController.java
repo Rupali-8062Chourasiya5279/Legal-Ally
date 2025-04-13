@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.Entities.Client;
 import com.example.demo.Entities.Lawyer;
@@ -257,4 +258,29 @@ public class MainController {
         return "index";
     }
 	
+	
+	@PostMapping("/sendReq")
+	public String sendRequestToLawyer(HttpSession session, RedirectAttributes redirectAttributes) {
+	    Client client = (Client) session.getAttribute("client");
+	    Lawyer lawyer = (Lawyer) session.getAttribute("lawyer");
+
+	    if (client != null && lawyer != null) {
+	        String subject = "Client Request from " + client.getName();
+	        String message = "Hello " + lawyer.getName() + ",\n\n" +
+	                         "You have received a new request from a client.\n\n" +
+	                         "Client Details:\n" +
+	                         "Name: " + client.getName() + "\n" +
+	                         "Email: " + client.getEmail() + "\n" +
+	                         "Phone: " + client.getPhone() + "\n\n" +
+	                         "Please get in touch with the client if you're available.\n\n" +
+	                         "Regards,\nLegal Portal System";
+
+	        emailService.sendRequestToLawyer(
+	                lawyer.getEmail(), subject, message, client.getEmail()
+	        );
+	    }
+
+	    redirectAttributes.addAttribute("attempted", "true");
+	    return "redirect:/lawyerProfile";
+	}
 }

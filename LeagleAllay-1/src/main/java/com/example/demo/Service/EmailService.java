@@ -24,5 +24,14 @@ public class EmailService {
         mailMessage.setReplyTo(userEmail); // Makes it easy to reply
         mailSender.send(mailMessage);
     }
+    
+    public void sendRequestToLawyer(String lawyerEmail, String subject, String messageBody, String clientEmail) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(lawyerEmail); // Send to the lawyer
+        mailMessage.setSubject(subject);
+        mailMessage.setText(messageBody);
+        mailMessage.setReplyTo(clientEmail); // lawyer can reply directly to the client
+        mailSender.send(mailMessage);
+    }
 }
 

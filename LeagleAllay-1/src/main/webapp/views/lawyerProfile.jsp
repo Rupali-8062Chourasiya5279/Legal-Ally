@@ -1,3 +1,4 @@
+<%@page import="com.example.demo.Entities.Client"%>
 <%@page import="com.example.demo.Entities.Lawyer"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -24,12 +25,23 @@
 </head>
 <body>
     <div class="container mt-5">
+    <%
+    Client client = (Client) session.getAttribute("client");
+    boolean showSuccess = client != null && request.getParameter("attempted") != null;
+		if (showSuccess) {
+		%>
+		<div class="alert alert-success text-center" role="alert">
+			Request Sent Successfully!</div>
+		<%
+		}
+		%>
         <div class="row justify-content-center">
             <div class="col-md-8 bg-light p-5 shadow rounded">
                 <h2 class="text-center text-primary mb-4">Welcome, Lawyer!</h2>
                 <%
+           
                     Lawyer l = (Lawyer) session.getAttribute("lawyer");
-					 
+             
                 %>
 
                 <!-- Profile Image -->
@@ -57,9 +69,18 @@
                     </div>
                 </div>
 
-                <!-- <div class="text-center mt-4">
-                    <a href="/logout" class="btn btn-dark">Logout</a>
-                </div> -->
+                <%
+               
+				if (client != null) {
+				%>
+				<form action="sendReq" method="post" class="text-center mt-4">
+					<input type="hidden" name="attempted" value="true" />
+					<button type="submit" class="btn btn-dark">Send Request</button>
+				</form>
+
+				<%
+				}
+				%>
             </div>
         </div>
     </div>
